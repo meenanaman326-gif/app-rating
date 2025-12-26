@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -29,29 +30,66 @@ footer{text-align:center;color:white;padding:15px;font-size:13px}
 <header>⭐ App Rating & Reviews</header>
 <div class="container" id="apps"></div>
 <footer>User name, rating & time logs included</footer>
+
 <script>
-const apps=["WhatsApp","Instagram","Facebook","YouTube","Spotify","Snapchat","Amazon","Flipkart"];
+// List of apps with name and logo URL
+const apps = [
+  {name:"WhatsApp", logo:"https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"},
+  {name:"Instagram", logo:"https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg"},
+  {name:"Facebook", logo:"https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"},
+  {name:"YouTube", logo:"https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png"},
+  {name:"Spotify", logo:"https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg"},
+  {name:"Snapchat", logo:"https://upload.wikimedia.org/wikipedia/en/thumb/c/c4/Snapchat_logo.svg/1200px-Snapchat_logo.svg.png"},
+  {name:"Amazon", logo:"https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"},
+  {name:"Flipkart", logo:"https://upload.wikimedia.org/wikipedia/commons/1/19/Flipkart_logo.png"},
+  {name:"TikTok", logo:"https://upload.wikimedia.org/wikipedia/en/6/6b/TikTok_logo.png"},
+  {name:"LinkedIn", logo:"https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png"}
+];
+
 const container=document.getElementById('apps');
-apps.forEach(appName=>{
-const card=document.createElement('div');
-card.className='card';
-card.innerHTML=`<img src="https://via.placeholder.com/100"><h3>${appName}</h3><div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div><input placeholder="Your name"><textarea placeholder="Write your comment..."></textarea><button>Submit Review</button><div class="reviews"></div>`;
-const stars=card.querySelectorAll('.stars span');
-const nameInput=card.querySelector('input');
-const textarea=card.querySelector('textarea');
-const reviews=card.querySelector('.reviews');
-let rating=0;
-stars.forEach((star,i)=>{star.onclick=()=>{rating=i+1;stars.forEach((s,idx)=>s.classList.toggle('active',idx<=i));}});
-card.querySelector('button').onclick=()=>{
-if(!rating||!textarea.value||!nameInput.value){alert('Please enter name, rating and comment');return;}
-const time=new Date().toLocaleString();
-const div=document.createElement('div');
-div.className='review';
-div.innerHTML=`<strong>${nameInput.value}</strong> – ⭐ ${rating}/5<br>${textarea.value}<br><span class="time">${time}</span>`;
-reviews.prepend(div);
-textarea.value='';
-};
-container.appendChild(card);
+
+apps.forEach(app=>{
+  const card=document.createElement('div');
+  card.className='card';
+  card.innerHTML=`
+    <img src="${app.logo}" alt="${app.name} Logo">
+    <h3>${app.name}</h3>
+    <div class="stars">
+      <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+    </div>
+    <input placeholder="Your name">
+    <textarea placeholder="Write your comment..."></textarea>
+    <button>Submit Review</button>
+    <div class="reviews"></div>
+  `;
+
+  const stars=card.querySelectorAll('.stars span');
+  const nameInput=card.querySelector('input');
+  const textarea=card.querySelector('textarea');
+  const reviews=card.querySelector('.reviews');
+  let rating=0;
+
+  stars.forEach((star,i)=>{
+    star.onclick=()=>{
+      rating=i+1;
+      stars.forEach((s,idx)=>s.classList.toggle('active',idx<=i));
+    };
+  });
+
+  card.querySelector('button').onclick=()=>{
+    if(!rating||!textarea.value||!nameInput.value){
+      alert('Please enter name, rating and comment');
+      return;
+    }
+    const time=new Date().toLocaleString();
+    const div=document.createElement('div');
+    div.className='review';
+    div.innerHTML=`<strong>${nameInput.value}</strong> – ⭐ ${rating}/5<br>${textarea.value}<br><span class="time">${time}</span>`;
+    reviews.prepend(div);
+    textarea.value='';
+  };
+
+  container.appendChild(card);
 });
 </script>
 </body>
